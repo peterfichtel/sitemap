@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-init-method="afterPropertiesSet" xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+    <!--sitemap code-->
+
+    <bean id="com.codebauhaus.portlet.communities.sitemap.defaultlayout" class="com.codebauhaus.portal.util.sitemap.DefaultSitemapComponentImpl" />
+    <bean id="com.codebauhaus.portlet.communities.sitemap.BlogsLayoutComponent.Impl" class="com.codebauhaus.portal.util.sitemap.BlogEntriesSitemapComponentImpl" />
+    <bean id="com.codebauhaus.portlet.communities.sitemap.UsersLayoutComponent.Impl" class="com.codebauhaus.portal.util.sitemap.UsersSitemapComponent" />
+
+    <!--liferay way of generating sitemap:-->
+    <!--<bean id="com.liferay.portlet.communities.sitemap.generator" class="com.codebauhaus.portal.util.sitemap.CodeBauhausSitemapGeneratorImpl">
+            <property name="defaultSitemapComponent" ref="com.liferay.portlet.communities.sitemap.defaultlayout" />
+        </bean>
+
+    -->
+    <!--code bauhaus way of generating sitemap:-->
+    <bean id="com.liferay.portlet.communities.sitemap.generator" class="com.codebauhaus.portal.util.sitemap.CodeBauhausSitemapGeneratorImpl">
+       <property name="defaultSitemapComponent" ref="com.codebauhaus.portlet.communities.sitemap.defaultlayout" />
+        <property name="blogsSitemapComponent" ref="com.codebauhaus.portlet.communities.sitemap.BlogsLayoutComponent.Impl" />
+        <property name="usersSitemapComponent" ref="com.codebauhaus.portlet.communities.sitemap.UsersLayoutComponent.Impl" />
+    </bean>
+
+    <!-- add the generator to the action -->
+    <bean id="com.liferay.portlet.communities.action.SitemapAction" class="com.liferay.portlet.communities.action.SitemapAction">
+        <property name="sitemapGenerator" ref="com.liferay.portlet.communities.sitemap.generator" />
+    </bean>
+
+    <!--end sitemap code-->
+
+</beans>
